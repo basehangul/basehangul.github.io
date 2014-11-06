@@ -3,6 +3,8 @@ BaseHangul
 
 > Human-readable binary encoding
 
+![](img/logo.png)
+
 BaseHangul is a binary encoder using **[Hangul](http://en.wikipedia.org/wiki/Hangul)**. See [the specification](http://api.dcmys.jp/basehangul) for details.
 
 -------
