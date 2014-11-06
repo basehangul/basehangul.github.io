@@ -18,3 +18,4 @@ BaseHangul is a binary encoder using **[Hangul](http://en.wikipedia.org/wiki/Han
   * [disjukr implementation](https://github.com/disjukr/basehangul)
   * [xnuk implementation](https://github.com/xnuk/basehangul-nodejs)
 * [C](https://github.com/Koasing/basehangul)
+* [.NET (C#)](https://basehanguldotnet.codeplex.com)
