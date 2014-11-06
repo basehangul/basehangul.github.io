@@ -17,3 +17,4 @@ BaseHangul is a binary encoder using **[Hangul](http://en.wikipedia.org/wiki/Han
   * [Snack-X implementation](https://github.com/Snack-X/basehangul)
   * [disjukr implementation](https://github.com/disjukr/basehangul)
   * [xnuk implementation](https://github.com/xnuk/basehangul-nodejs)
+* [C](https://github.com/Koasing/basehangul)
