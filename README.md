@@ -5,7 +5,7 @@ BaseHangul
 
 ![](img/logo.png)
 
-BaseHangul is a binary encoder using **[Hangul](http://en.wikipedia.org/wiki/Hangul)**. See [the specification](http://basehangul.github.io) for details.
+BaseHangul is a binary encoder using **[Hangul](http://en.wikipedia.org/wiki/Hangul)**. See [the specification](https://basehangul.github.io) for details.
 
 -------
 
