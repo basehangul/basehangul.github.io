@@ -11,7 +11,7 @@ BaseHangul is a binary encoder using **[Hangul](http://en.wikipedia.org/wiki/Han
 
 * [PHP](https://github.com/koreapyj/basehangul) (Reference implementation)
 * [Rust](https://github.com/lifthrasiir/rust-basehangul)
-* C
+* C / C++
   * [omniavinco/libbasehangul](https://github.com/omniavinco/libbasehangul)
   * [Koasing/basehangul](https://github.com/Koasing/basehangul)
 * [Python](https://github.com/ssut/basehangul)
