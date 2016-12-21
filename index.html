@@ -1,72 +1,125 @@
 <!DOCTYPE html>
 <html lang="ko">
-	<head>
-		<meta charset="utf-8">
-		<title>BaseHangul</title>
-		<style>
-			table.border { border: 1px outset gray; }
-			table.border th, td { border: 1px inset gray; }
-		</style>
-	</head>
-	<body>
-		<h1>BaseHangul 1.1</h1>
-		<p>BaseHangul은 한글을 이용한 바이너리 인코딩입니다. 바이너리 데이터를 KS C 5601 규격에 포함된 한글 문자로 변환합니다.</p>
-		<h2>변환 방식</h2>
-		<p>5바이트(40비트)가 4글자가 됩니다.</p>
-		<h3>왜 40비트인가?</h3>
-		<p>KS C 5601에 포함된 한글 조합은 총 2350자이므로 순수한 한글 문자만을 이용해서 11비트를 한 글자로 표현할 수 있습니다. 하지만 11비트를 한 문자로 조합하면 8(1바이트)과의 최소공배수가 88인 관계로 변환 최소 단위가 88비트가 되어 낭비가 심해집니다. 그래서 1028개의 문자만을 선별하여 10비트를 한 글자로 표현하기로 했습니다. 따라서 변환 최소 단위는 8과 10의 최소공배수인 40비트가 됩니다.</p>
-		<h3>사용되는 조합은?</h3>
-		<p>KS C 5601 조합 중 사전순으로 앞에서부터 1028개의 조합만을 사용합니다. &quot;흐&quot;의 경우 범위 밖에 있습니다만, padding 문자로 사용됩니다.</p>
-		<h2>예제</h2>
-		<h3>예제 1: 5바이트를 채운 경우</h3>
-		<table class=border>
-			<tr><th>바이트 문자</th><th colspan="8">1 (49)</th><th colspan="8">2 (50)</th><th colspan="8">3 (51)</th><th colspan="8">a (97)</th><th colspan="8">b (98)</th></tr>
-			<tr><th>비트 값</th>
-				<td>0</td><td>0</td><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td>1</td>
-				<td>0</td><td>0</td><td>1</td><td>1</td><td>0</td><td>0</td><td>1</td><td>0</td>
-				<td>0</td><td>0</td><td>1</td><td>1</td><td>0</td><td>0</td><td>1</td><td>1</td>
-				<td>0</td><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td>
-				<td>0</td><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td>
-			</tr>
-			<tr><th>10비트 문자</th>
-				<th colspan="10">꺽 (196)</th><th colspan="10">먹 (803)</th><th colspan="10">꼍 (216)</th><th colspan="10">녜 (354)</th>
-			</tr>
-		</table>
-		<h3>예제 2: 5바이트를 채우지 못한 경우</h3>
-		<table class=border>
-			<tr><th>바이트 문자</th><th colspan="8">1 (49)</th><th colspan="8"></th><th colspan="8"></th><th colspan="8"></th><th colspan="8"></th></tr>
-			<tr><th>비트 값</th>
-				<td>0</td><td>0</td><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td>1</td>
-				<td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
-				<td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
-				<td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
-				<td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
-			</tr>
-			<tr><th>10비트 문자</th>
-				<th colspan="10">꺽 (196)</th><th colspan="10">흐 (-1)</th><th colspan="10">흐 (-1)</th><th colspan="10">흐 (-1)</th>
-			</tr>
-		</table>
-		<p>중간에 잘린 경우 0으로 padding하며, 10비트째로 padding일 경우 NULL문자 &quot;가&quot; 대신 padding 문자 &quot;흐&quot;를 출력합니다.</p>
-		<h3>예제 3: 마지막 40비트가 5바이트째 없이 끝난 경우</h3>
-		<table class=border>
-			<tr><th>바이트 문자</th><th colspan="8">1 (49)</th><th colspan="8">2 (50)</th><th colspan="8">3 (51)</th><th colspan="8">d (100)</th><th colspan="8"></th></tr>
-			<tr><th>비트 값</th>
-				<td>0</td><td>0</td><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td>1</td>
-				<td>0</td><td>0</td><td>1</td><td>1</td><td>0</td><td>0</td><td>1</td><td>0</td>
-				<td>0</td><td>0</td><td>1</td><td>1</td><td>0</td><td>0</td><td>1</td><td>1</td>
-				<td>0</td><td>1</td><td>1</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td>
-				<td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
-			</tr>
-			<tr><th>10비트 문자</th>
-				<th colspan="10">꺽 (196)</th><th colspan="10">먹 (803)</th><th colspan="10">꼐 (217)</th><th colspan="10">빎 (1024)</th>
-			</tr>
-		</table>
-		<p>5바이트째 없이 끝난 경우 인코드 후 디코드하면 원래는 없었던 NULL이 붙어 나오기 때문에 예외로 지정하였습니다.</p>
-		<p>마지막 10비트를 8만큼 오른쪽으로 시프트한 후 1024를 더해주면 됩니다.</p>
-		<h2>구현예제</h2>
-		<p>PHP로 구현해두었습니다.</p>
-		<p><a href="https://github.com/koreapyj/basehangul" target="_blank">https://github.com/koreapyj/basehangul</a></p>
-		<hr>
-		by <a href="https://twitter.com/koreapyj" target="_blank">ハルカナソラ</a>, 2014년 한글날 - <i>Last Change: 2014/11/06 1:14</i>
-	</body>
+<head>
+	<meta charset="utf-8">
+	<title>BaseHangul</title>
+	<style>
+	/* 노토 산스 폰트 적용 */
+	@import url(https://fonts.googleapis.com/earlyaccess/notosanskr.css);
+	body {
+		font-family: 'Noto Sans KR', 'Helvetica', 'Arial', sans-serif;
+
+		/* Centering */
+		max-width: 55em;
+		margin: 0 auto;
+
+		/* 여백 조정 */
+		line-height: 1.5;
+		padding: 1.5em 1em 3em;
+
+		/* 글자색 조정 */
+		color: rgb(21, 21, 21);
+	}
+
+	/* 제목 밑에 구분선 추가 */
+	h1 {
+		border-bottom: 2px solid #dadada;
+		padding-bottom: 0.1em;
+		margin: 0.67em 0;
+	}
+
+	/* 소단원 앞에 여백 추가, 밑에 작은 구분선 추가 */
+	h2 { margin-top: 1em; padding-top: 1em; }
+
+	/* 텍스트 양쪽 맞추기 */
+	p { text-align: justify; }
+
+	/* 전체적으로 얇은 글꼴 적용 */
+	p, footer { font-weight: 300; }
+	th, td { font-weight: 400; }
+
+	/* 하이퍼링크 스타일링 */
+	a { color: #e81c4f; text-decoration: inherit; }
+	a:hover { text-decoration: underline; }
+
+	/* 문서 하단 */
+	footer {
+		margin-top: 5em;
+		padding-top: 1em;
+		border-top: 1px solid #eee;
+		font-size: 0.8em;
+	}
+	footer > em { float: right; }
+
+	/* 전통적인 테이블 CSS */
+	/* TODO: 이쁘게 고치기 */
+	table.border { border: 1px outset gray; }
+	table.border th, td { border: 1px inset gray; }
+	</style>
+</head>
+<body>
+	<h1>BaseHangul 1.1</h1>
+	<p>BaseHangul은 한글을 이용한 바이너리 인코딩입니다. 바이너리 데이터를 KS C 5601 규격에 포함된 한글 문자로 변환합니다.</p>
+	<h2>I. 변환 방식</h2>
+	<p>5바이트(40비트)가 4글자가 됩니다.</p>
+	<h3>왜 40비트인가?</h3>
+	<p>KS C 5601에 포함된 한글 조합은 총 2350자이므로 순수한 한글 문자만을 이용해서 11비트를 한 글자로 표현할 수 있습니다. 하지만 11비트를 한 문자로 조합하면 8(1바이트)과의 최소공배수가 88인 관계로 변환 최소 단위가 88비트가 되어 낭비가 심해집니다. 그래서 1028개의 문자만을 선별하여 10비트를 한 글자로 표현하기로 했습니다. 따라서 변환 최소 단위는 8과 10의 최소공배수인 40비트가 됩니다.</p>
+	<h3>사용되는 조합은?</h3>
+	<p>KS C 5601 조합 중 사전순으로 앞에서부터 1028개의 조합만을 사용합니다. &quot;흐&quot;의 경우 범위 밖에 있습니다만, padding 문자로 사용됩니다.</p>
+	<h2>II. 예제</h2>
+	<h3>예제 1: 5바이트를 채운 경우</h3>
+	<table class=border>
+		<tr><th>바이트 문자</th><th colspan="8">1 (49)</th><th colspan="8">2 (50)</th><th colspan="8">3 (51)</th><th colspan="8">a (97)</th><th colspan="8">b (98)</th></tr>
+		<tr><th>비트 값</th>
+			<td>0</td><td>0</td><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td>1</td>
+			<td>0</td><td>0</td><td>1</td><td>1</td><td>0</td><td>0</td><td>1</td><td>0</td>
+			<td>0</td><td>0</td><td>1</td><td>1</td><td>0</td><td>0</td><td>1</td><td>1</td>
+			<td>0</td><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td>
+			<td>0</td><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td>
+		</tr>
+		<tr><th>10비트 문자</th>
+			<th colspan="10">꺽 (196)</th><th colspan="10">먹 (803)</th><th colspan="10">꼍 (216)</th><th colspan="10">녜 (354)</th>
+		</tr>
+	</table>
+	<h3>예제 2: 5바이트를 채우지 못한 경우</h3>
+	<table class=border>
+		<tr><th>바이트 문자</th><th colspan="8">1 (49)</th><th colspan="8"></th><th colspan="8"></th><th colspan="8"></th><th colspan="8"></th></tr>
+		<tr><th>비트 값</th>
+			<td>0</td><td>0</td><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td>1</td>
+			<td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
+			<td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
+			<td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
+			<td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
+		</tr>
+		<tr><th>10비트 문자</th>
+			<th colspan="10">꺽 (196)</th><th colspan="10">흐 (-1)</th><th colspan="10">흐 (-1)</th><th colspan="10">흐 (-1)</th>
+		</tr>
+	</table>
+	<p>중간에 잘린 경우 0으로 padding하며, 10비트째로 padding일 경우 NULL문자 &quot;가&quot; 대신 padding 문자 &quot;흐&quot;를 출력합니다.</p>
+	<h3>예제 3: 마지막 40비트가 5바이트째 없이 끝난 경우</h3>
+	<table class=border>
+		<tr><th>바이트 문자</th><th colspan="8">1 (49)</th><th colspan="8">2 (50)</th><th colspan="8">3 (51)</th><th colspan="8">d (100)</th><th colspan="8"></th></tr>
+		<tr><th>비트 값</th>
+			<td>0</td><td>0</td><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td>1</td>
+			<td>0</td><td>0</td><td>1</td><td>1</td><td>0</td><td>0</td><td>1</td><td>0</td>
+			<td>0</td><td>0</td><td>1</td><td>1</td><td>0</td><td>0</td><td>1</td><td>1</td>
+			<td>0</td><td>1</td><td>1</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td>
+			<td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
+		</tr>
+		<tr><th>10비트 문자</th>
+			<th colspan="10">꺽 (196)</th><th colspan="10">먹 (803)</th><th colspan="10">꼐 (217)</th><th colspan="10">빎 (1024)</th>
+		</tr>
+	</table>
+	<p>5바이트째 없이 끝난 경우 인코드 후 디코드하면 원래는 없었던 NULL이 붙어 나오기 때문에 예외로 지정하였습니다.</p>
+	<p>마지막 10비트를 8만큼 오른쪽으로 시프트한 후 1024를 더해주면 됩니다.</p>
+	<h2>III. 구현예제</h2>
+	<p>PHP로 구현해두었습니다.</p>
+	<p><a href="https://github.com/koreapyj/basehangul" target="_blank">https://github.com/koreapyj/basehangul</a></p>
+
+	<footer>
+		by <a href="https://twitter.com/koreapyj" target="_blank">ハルカナソラ</a>,
+		2014년 한글날
+		<em>Last Change: 2014/11/06 1:14</em>
+	</footer>
+</body>
 </html>
