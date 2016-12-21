@@ -4,8 +4,19 @@
 	<meta charset="utf-8">
 	<title>BaseHangul</title>
 	<style>
-		table.border { border: 1px outset gray; }
-		table.border th, td { border: 1px inset gray; }
+	/* 노토 산스 폰트 적용 */
+	@import url(https://fonts.googleapis.com/earlyaccess/notosanskr.css);
+	body {
+		font-family: 'Noto Sans KR', sans-serif;
+	}
+
+	/* 전체적으로 얇은 글꼴 적용 */
+	p { font-weight: 300; }
+	th, td { font-weight: 400; }
+
+	/* 전통적인 테이블 CSS */
+	table.border { border: 1px outset gray; }
+	table.border th, td { border: 1px inset gray; }
 	</style>
 </head>
 <body>
