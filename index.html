@@ -3,6 +3,10 @@
 	<head>
 		<meta charset="utf-8">
 		<title>BaseHangul</title>
+		<style>
+			table.border { border: 1px outset gray; }
+			table.border th, td { border: 1px inset gray; }
+		</style>
 	</head>
 	<body>
 		<h1>BaseHangul 1.1</h1>
@@ -15,7 +19,7 @@
 		<p>KS C 5601 조합 중 사전순으로 앞에서부터 1028개의 조합만을 사용합니다. &quot;흐&quot;의 경우 범위 밖에 있습니다만, padding 문자로 사용됩니다.</p>
 		<h2>예제</h2>
 		<h3>예제 1: 5바이트를 채운 경우</h3>
-		<table border="1">
+		<table class=border>
 			<tr><th>바이트 문자</th><th colspan="8">1 (49)</th><th colspan="8">2 (50)</th><th colspan="8">3 (51)</th><th colspan="8">a (97)</th><th colspan="8">b (98)</th></tr>
 			<tr><th>비트 값</th>
 				<td>0</td><td>0</td><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td>1</td>
@@ -29,7 +33,7 @@
 			</tr>
 		</table>
 		<h3>예제 2: 5바이트를 채우지 못한 경우</h3>
-		<table border="1">
+		<table class=border>
 			<tr><th>바이트 문자</th><th colspan="8">1 (49)</th><th colspan="8"></th><th colspan="8"></th><th colspan="8"></th><th colspan="8"></th></tr>
 			<tr><th>비트 값</th>
 				<td>0</td><td>0</td><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td>1</td>
@@ -44,7 +48,7 @@
 		</table>
 		<p>중간에 잘린 경우 0으로 padding하며, 10비트째로 padding일 경우 NULL문자 &quot;가&quot; 대신 padding 문자 &quot;흐&quot;를 출력합니다.</p>
 		<h3>예제 3: 마지막 40비트가 5바이트째 없이 끝난 경우</h3>
-		<table border="1">
+		<table class=border>
 			<tr><th>바이트 문자</th><th colspan="8">1 (49)</th><th colspan="8">2 (50)</th><th colspan="8">3 (51)</th><th colspan="8">d (100)</th><th colspan="8"></th></tr>
 			<tr><th>비트 값</th>
 				<td>0</td><td>0</td><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td>1</td>
