@@ -1,0 +1,11 @@
+# http://editorconfig.org
+root = true
+
+[*]
+end_of_line = lf
+insert_final_newline = true
+chatset = utf-8
+
+[index.html]
+indent_style = tab
+indent_size = 2
